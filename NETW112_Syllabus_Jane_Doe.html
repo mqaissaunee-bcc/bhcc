@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en"><plasmo-csui id="brisk-extension-shadow-root-pcblbflgdkdfdjpjifeppkljdnaekohj" style="z-index: 2147483647;" data-extension-version="1.0.367" data-extension-name="Brisk Teaching – AI Assistant for Teachers" data-brisk-extension-shadow-host="true"></plasmo-csui><script async="" defer="" src="chrome-extension://pcblbflgdkdfdjpjifeppkljdnaekohj/GdocApi.bb24edea.js" type="text/javascript"></script><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NETW 112: Containers &amp; Orchestration - Interactive Syllabus</title>
+    <script src="https://cdn.tailwindcss.com"></script><style>
+.--brisk-axd {
+  filter: blur(4px);
+  user-select: none;
+}
+</style>
+    <style>
+        :root {
+            --brookdale-blue: #004b8d;
+            --rh-red: #ee0000;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f4f7f9;
+        }
+        .container-custom {
+            max-width: 1000px;
+            margin: 2rem auto;
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .sidebar-nav {
+            position: sticky;
+            top: 1rem;
+            height: fit-content;
+        }
+        .nav-link {
+            display: block;
+            padding: 0.5rem 1rem;
+            color: #555;
+            text-decoration: none;
+            border-left: 3px solid transparent;
+            transition: all 0.2s;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: var(--brookdale-blue);
+            border-left-color: var(--brookdale-blue);
+            background: #f0f7ff;
+        }
+        .section-card {
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid #eee;
+        }
+        .header-gradient {
+            background: linear-gradient(135deg, var(--brookdale-blue) 0%, #002d54 100%);
+            color: white;
+            padding: 3rem 2rem;
+            border-radius: 8px 8px 0 0;
+            margin: -2rem -2rem 2rem -2rem;
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        .badge-red { background: #fee2e2; color: #991b1b; }
+        .badge-blue { background: #dbeafe; color: #1e40af; }
+        
+        @media print {
+            .no-print { display: none; }
+            .container-custom { box-shadow: none; margin: 0; width: 100%; max-width: none; }
+            .sidebar-nav { display: none; }
+        }
+
+        *:focus {
+            outline: 3px solid var(--brookdale-blue);
+            outline-offset: 2px;
+        }
+    </style>
+<style>*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/* ! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}.my-4{margin-top:1rem;margin-bottom:1rem}.mb-1{margin-bottom:0.25rem}.mb-2{margin-bottom:0.5rem}.mb-4{margin-bottom:1rem}.mb-6{margin-bottom:1.5rem}.mb-8{margin-bottom:2rem}.mr-2{margin-right:0.5rem}.mt-1{margin-top:0.25rem}.mt-3{margin-top:0.75rem}.mt-6{margin-top:1.5rem}.block{display:block}.flex{display:flex}.grid{display:grid}.h-4{height:1rem}.h-5{height:1.25rem}.w-4{width:1rem}.w-5{width:1.25rem}.w-full{width:100%}.flex-1{flex:1 1 0%}.border-collapse{border-collapse:collapse}.cursor-default{cursor:default}.grid-cols-1{grid-template-columns:repeat(1, minmax(0, 1fr))}.flex-col{flex-direction:column}.flex-wrap{flex-wrap:wrap}.items-end{align-items:flex-end}.items-center{align-items:center}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.gap-2{gap:0.5rem}.gap-4{gap:1rem}.gap-6{gap:1.5rem}.gap-8{gap:2rem}.space-y-3 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.75rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.75rem * var(--tw-space-y-reverse))}.space-y-4 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(1rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(1rem * var(--tw-space-y-reverse))}.overflow-hidden{overflow:hidden}.rounded{border-radius:0.25rem}.rounded-full{border-radius:9999px}.rounded-lg{border-radius:0.5rem}.rounded-xl{border-radius:0.75rem}.border{border-width:1px}.border-b{border-bottom-width:1px}.border-l-4{border-left-width:4px}.border-l-8{border-left-width:8px}.border-none{border-style:none}.border-blue-500{--tw-border-opacity:1;border-color:rgb(59 130 246 / var(--tw-border-opacity, 1))}.border-blue-600{--tw-border-opacity:1;border-color:rgb(37 99 235 / var(--tw-border-opacity, 1))}.border-gray-100{--tw-border-opacity:1;border-color:rgb(243 244 246 / var(--tw-border-opacity, 1))}.border-gray-200{--tw-border-opacity:1;border-color:rgb(229 231 235 / var(--tw-border-opacity, 1))}.border-red-100{--tw-border-opacity:1;border-color:rgb(254 226 226 / var(--tw-border-opacity, 1))}.border-slate-200{--tw-border-opacity:1;border-color:rgb(226 232 240 / var(--tw-border-opacity, 1))}.border-slate-600{--tw-border-opacity:1;border-color:rgb(71 85 105 / var(--tw-border-opacity, 1))}.border-white\/30{border-color:rgb(255 255 255 / 0.3)}.border-yellow-100{--tw-border-opacity:1;border-color:rgb(254 249 195 / var(--tw-border-opacity, 1))}.bg-blue-50{--tw-bg-opacity:1;background-color:rgb(239 246 255 / var(--tw-bg-opacity, 1))}.bg-blue-600{--tw-bg-opacity:1;background-color:rgb(37 99 235 / var(--tw-bg-opacity, 1))}.bg-blue-900{--tw-bg-opacity:1;background-color:rgb(30 58 138 / var(--tw-bg-opacity, 1))}.bg-emerald-600{--tw-bg-opacity:1;background-color:rgb(5 150 105 / var(--tw-bg-opacity, 1))}.bg-gray-50{--tw-bg-opacity:1;background-color:rgb(249 250 251 / var(--tw-bg-opacity, 1))}.bg-red-50\/50{background-color:rgb(254 242 242 / 0.5)}.bg-slate-100{--tw-bg-opacity:1;background-color:rgb(241 245 249 / var(--tw-bg-opacity, 1))}.bg-slate-50{--tw-bg-opacity:1;background-color:rgb(248 250 252 / var(--tw-bg-opacity, 1))}.bg-slate-700{--tw-bg-opacity:1;background-color:rgb(51 65 85 / var(--tw-bg-opacity, 1))}.bg-slate-800{--tw-bg-opacity:1;background-color:rgb(30 41 59 / var(--tw-bg-opacity, 1))}.bg-white{--tw-bg-opacity:1;background-color:rgb(255 255 255 / var(--tw-bg-opacity, 1))}.bg-white\/20{background-color:rgb(255 255 255 / 0.2)}.bg-yellow-50\/50{background-color:rgb(254 252 232 / 0.5)}.p-2{padding:0.5rem}.p-3{padding:0.75rem}.p-4{padding:1rem}.p-6{padding:1.5rem}.px-2{padding-left:0.5rem;padding-right:0.5rem}.px-3{padding-left:0.75rem;padding-right:0.75rem}.px-4{padding-left:1rem;padding-right:1rem}.py-1{padding-top:0.25rem;padding-bottom:0.25rem}.py-12{padding-top:3rem;padding-bottom:3rem}.py-2{padding-top:0.5rem;padding-bottom:0.5rem}.pl-4{padding-left:1rem}.text-left{text-align:left}.text-center{text-align:center}.text-2xl{font-size:1.5rem;line-height:2rem}.text-3xl{font-size:1.875rem;line-height:2.25rem}.text-4xl{font-size:2.25rem;line-height:2.5rem}.text-\[10px\]{font-size:10px}.text-\[11px\]{font-size:11px}.text-lg{font-size:1.125rem;line-height:1.75rem}.text-sm{font-size:0.875rem;line-height:1.25rem}.text-xl{font-size:1.25rem;line-height:1.75rem}.text-xs{font-size:0.75rem;line-height:1rem}.font-black{font-weight:900}.font-bold{font-weight:700}.font-extrabold{font-weight:800}.font-semibold{font-weight:600}.uppercase{text-transform:uppercase}.italic{font-style:italic}.leading-relaxed{line-height:1.625}.leading-tight{line-height:1.25}.tracking-tighter{letter-spacing:-0.05em}.tracking-widest{letter-spacing:0.1em}.tracking-tight{letter-spacing:-0.025em}.text-blue-200{--tw-text-opacity:1;color:rgb(191 219 254 / var(--tw-text-opacity, 1))}.text-blue-400{--tw-text-opacity:1;color:rgb(96 165 250 / var(--tw-text-opacity, 1))}.text-blue-600{--tw-text-opacity:1;color:rgb(37 99 235 / var(--tw-text-opacity, 1))}.text-gray-400{--tw-text-opacity:1;color:rgb(156 163 175 / var(--tw-text-opacity, 1))}.text-gray-600{--tw-text-opacity:1;color:rgb(75 85 99 / var(--tw-text-opacity, 1))}.text-gray-700{--tw-text-opacity:1;color:rgb(55 65 81 / var(--tw-text-opacity, 1))}.text-gray-800{--tw-text-opacity:1;color:rgb(31 41 55 / var(--tw-text-opacity, 1))}.text-red-700{--tw-text-opacity:1;color:rgb(185 28 28 / var(--tw-text-opacity, 1))}.text-red-800{--tw-text-opacity:1;color:rgb(153 27 27 / var(--tw-text-opacity, 1))}.text-slate-600{--tw-text-opacity:1;color:rgb(71 85 105 / var(--tw-text-opacity, 1))}.text-slate-700{--tw-text-opacity:1;color:rgb(51 65 85 / var(--tw-text-opacity, 1))}.text-white{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.text-yellow-700{--tw-text-opacity:1;color:rgb(161 98 7 / var(--tw-text-opacity, 1))}.text-yellow-800{--tw-text-opacity:1;color:rgb(133 77 14 / var(--tw-text-opacity, 1))}.text-gray-300{--tw-text-opacity:1;color:rgb(209 213 219 / var(--tw-text-opacity, 1))}.text-slate-800{--tw-text-opacity:1;color:rgb(30 41 59 / var(--tw-text-opacity, 1))}.underline{-webkit-text-decoration-line:underline;text-decoration-line:underline}.decoration-blue-300{-webkit-text-decoration-color:#93c5fd;text-decoration-color:#93c5fd}.opacity-90{opacity:0.9}.shadow-sm{--tw-shadow:0 1px 2px 0 rgb(0 0 0 / 0.05);--tw-shadow-colored:0 1px 2px 0 var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-xl{--tw-shadow:0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 20px 25px -5px var(--tw-shadow-color), 0 8px 10px -6px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.backdrop-blur-sm{--tw-backdrop-blur:blur(4px);-webkit-backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia)}.transition{transition-property:color, background-color, border-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-text-decoration-color, -webkit-backdrop-filter;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-text-decoration-color, -webkit-backdrop-filter;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.hover\:bg-blue-500:hover{--tw-bg-opacity:1;background-color:rgb(59 130 246 / var(--tw-bg-opacity, 1))}.hover\:bg-emerald-500:hover{--tw-bg-opacity:1;background-color:rgb(16 185 129 / var(--tw-bg-opacity, 1))}.hover\:bg-slate-50:hover{--tw-bg-opacity:1;background-color:rgb(248 250 252 / var(--tw-bg-opacity, 1))}.hover\:bg-slate-50\/80:hover{background-color:rgb(248 250 252 / 0.8)}.focus\:ring-2:focus{--tw-ring-offset-shadow:var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow:var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000)}.focus\:ring-blue-500:focus{--tw-ring-opacity:1;--tw-ring-color:rgb(59 130 246 / var(--tw-ring-opacity, 1))}@media (min-width: 640px){.sm\:grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}}@media (min-width: 768px){.md\:w-1\/3{width:33.333333%}.md\:w-1\/4{width:25%}.md\:w-3\/4{width:75%}.md\:grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}.md\:flex-row{flex-direction:row}}@media (min-width: 1024px){.lg\:grid-cols-4{grid-template-columns:repeat(4, minmax(0, 1fr))}}</style></head>
+<body data-new-gr-c-s-check-loaded="14.1286.0" data-gr-ext-installed="">
+
+<div class="container-custom">
+    <!-- FACULTY ONLY: Control Panel -->
+    
+
+    <div class="flex flex-col md:flex-row gap-8">
+        <!-- Sidebar -->
+        <nav class="md:w-1/4 no-print" aria-label="Syllabus Navigation">
+            <div class="sidebar-nav bg-white p-4 rounded border">
+                <h3 class="font-bold text-gray-400 uppercase text-[10px] mb-4 tracking-widest">Syllabus Sections</h3>
+                <a href="#info" class="nav-link active">Course Info</a>
+                <a href="#description" class="nav-link">Description</a>
+                <a href="#outcomes" class="nav-link">Learning Outcomes</a>
+                <a href="#schedule" class="nav-link">Weekly Schedule</a>
+                <a href="#grading" class="nav-link">Grading Standard</a>
+                <a href="#policies" class="nav-link">Course Policies</a>
+                
+                <hr class="my-4">
+                <button onclick="window.print()" class="w-full flex items-center justify-center gap-2 border border-slate-200 text-slate-600 py-2 rounded text-xs font-bold hover:bg-slate-50 transition">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+                    Download PDF
+                </button>
+            </div>
+        </nav>
+
+        <!-- Content -->
+        <main class="md:w-3/4">
+            <header class="header-gradient text-center" id="info">
+                <p class="uppercase tracking-widest text-blue-200 font-bold text-xs mb-2">Brookdale Community College</p>
+                <h1 class="text-4xl font-extrabold mb-2 leading-tight">NETW 112: Containers &amp; Orchestration</h1>
+                <h2 class="text-xl opacity-90 mb-6">Containerization with Podman &amp; OpenShift</h2>
+                <div class="flex flex-wrap justify-center gap-4 text-xs">
+                    <span class="bg-white/20 px-4 py-2 rounded-full border border-white/30 backdrop-blur-sm">
+                        Instructor: <span id="displayInstructor" class="font-bold underline decoration-blue-300">Jane Doe</span>
+                    </span>
+                    <span class="bg-white/20 px-4 py-2 rounded-full border border-white/30 backdrop-blur-sm">Code: NETW 112</span>
+                </div>
+            </header>
+
+            <section id="description" class="section-card">
+                <h3 class="text-2xl font-bold text-gray-800 mb-4 border-l-4 border-blue-600 pl-4">Course Description</h3>
+                <p class="text-gray-700 leading-relaxed">
+                    This course serves as preparation for the **Red Hat Certified Specialist in Containers (EX188)**. Students develop practical skills in building, managing, and troubleshooting containers using Podman, then advance to administering containerized applications on an OpenShift/Kubernetes cluster.
+                </p>
+                <div class="mt-6 flex flex-wrap gap-2">
+                    <span class="bg-slate-100 text-slate-600 px-3 py-1 rounded text-xs font-bold">RHEL 9</span>
+                    <span class="bg-slate-100 text-slate-600 px-3 py-1 rounded text-xs font-bold">Podman 4.x</span>
+                    <span class="bg-slate-100 text-slate-600 px-3 py-1 rounded text-xs font-bold">Kubernetes APIs</span>
+                    <span class="bg-slate-100 text-slate-600 px-3 py-1 rounded text-xs font-bold">OpenShift 4.14+</span>
+                </div>
+            </section>
+
+            <section id="outcomes" class="section-card">
+                <h3 class="text-2xl font-bold text-gray-800 mb-4">Learning Outcomes</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="p-4 bg-gray-50 rounded-lg border border-gray-100">
+                        <span class="text-blue-600 font-bold block mb-1">Podman Mastery</span>
+                        <p class="text-sm text-gray-600 italic">Images, Volumes, Containerfiles, and Compose.</p>
+                    </div>
+                    <div class="p-4 bg-gray-50 rounded-lg border border-gray-100">
+                        <span class="text-blue-600 font-bold block mb-1">OpenShift Ops</span>
+                        <p class="text-sm text-gray-600 italic">Deployments, Services, Routes, and HPA.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="schedule" class="section-card">
+                <div class="flex justify-between items-end mb-6">
+                    <h3 class="text-2xl font-bold text-gray-800">Weekly Schedule</h3>
+                    <div id="termStartIndicator" class="text-xs font-bold text-blue-600 bg-blue-50 px-3 py-1 rounded-full uppercase tracking-tighter bg-blue-600 text-white">Term Starts: 9/1/2026</div>
+                </div>
+                
+                <div class="overflow-hidden rounded-xl border border-gray-200 shadow-sm">
+                    <table class="w-full text-left border-collapse" aria-label="Course Calendar">
+                        <thead>
+                            <tr class="bg-slate-50 border-b border-gray-200">
+                                <th class="p-4 font-bold text-[10px] uppercase text-gray-400">Wk</th>
+                                <th class="p-4 font-bold text-[10px] uppercase text-gray-400">Week Of</th>
+                                <th class="p-4 font-bold text-[10px] uppercase text-gray-400">Focus Area</th>
+                                <th class="p-4 font-bold text-[10px] uppercase text-gray-400">Assessment</th>
+                            </tr>
+                        </thead>
+                        <tbody id="scheduleBody"><tr class="border-b border-gray-100 hover:bg-slate-50/80 transition cursor-default">
+                <td class="p-4 text-xs font-bold text-gray-300">1</td>
+                <td class="p-4 text-sm font-semibold text-slate-600">Sep 1</td>
+                <td class="p-4">
+                    <div class="font-bold text-slate-800 text-sm">Introduction &amp; Overview of Containers</div>
+                    <div class="text-[10px] text-gray-400 font-bold uppercase tracking-tight">DO188 Ch 1</div>
+                </td>
+                <td class="p-4">
+                    <span class="status-badge badge-blue">Lecture</span>
+                </td>
+            </tr><tr class="border-b border-gray-100 hover:bg-slate-50/80 transition cursor-default">
+                <td class="p-4 text-xs font-bold text-gray-300">2</td>
+                <td class="p-4 text-sm font-semibold text-slate-600">Sep 8</td>
+                <td class="p-4">
+                    <div class="font-bold text-slate-800 text-sm">Podman Basics</div>
+                    <div class="text-[10px] text-gray-400 font-bold uppercase tracking-tight">DO188 Ch 2</div>
+                </td>
+                <td class="p-4">
+                    <span class="status-badge badge-blue">Lab</span>
+                </td>
+            </tr><tr class="border-b border-gray-100 hover:bg-slate-50/80 transition cursor-default">
+                <td class="p-4 text-xs font-bold text-gray-300">3</td>
+                <td class="p-4 text-sm font-semibold text-slate-600">Sep 15</td>
+                <td class="p-4">
+                    <div class="font-bold text-slate-800 text-sm">Container Images</div>
+                    <div class="text-[10px] text-gray-400 font-bold uppercase tracking-tight">DO188 Ch 3</div>
+                </td>
+                <td class="p-4">
+                    <span class="status-badge badge-blue">Lab</span>
+                </td>
+            </tr><tr class="border-b border-gray-100 hover:bg-slate-50/80 transition cursor-default">
+                <td class="p-4 text-xs font-bold text-gray-300">4</td>
+                <td class="p-4 text-sm font-semibold text-slate-600">Sep 22</td>
+                <td class="p-4">
+                    <div class="font-bold text-slate-800 text-sm">Custom Container Images</div>
+                    <div class="text-[10px] text-gray-400 font-bold uppercase tracking-tight">DO188 Ch 4</div>
+                </td>
+                <td class="p-4">
+                    <span class="status-badge badge-blue">Lab</span>
+                </td>
+            </tr><tr class="border-b border-gray-100 hover:bg-slate-50/80 transition cursor-default">
+                <td class="p-4 text-xs font-bold text-gray-300">5</td>
+                <td class="p-4 text-sm font-semibold text-slate-600">Sep 29</td>
+                <td class="p-4">
+                    <div class="font-bold text-slate-800 text-sm">Persisting Data</div>
+                    <div class="text-[10px] text-gray-400 font-bold uppercase tracking-tight">DO188 Ch 5</div>
+                </td>
+                <td class="p-4">
+                    <span class="status-badge badge-blue">Lab</span>
+                </td>
+            </tr><tr class="border-b border-gray-100 hover:bg-slate-50/80 transition cursor-default">
+                <td class="p-4 text-xs font-bold text-gray-300">6</td>
+                <td class="p-4 text-sm font-semibold text-slate-600">Oct 6</td>
+                <td class="p-4">
+                    <div class="font-bold text-slate-800 text-sm">Troubleshooting Containers</div>
+                    <div class="text-[10px] text-gray-400 font-bold uppercase tracking-tight">DO188 Ch 6</div>
+                </td>
+                <td class="p-4">
+                    <span class="status-badge badge-blue">Lab</span>
+                </td>
+            </tr><tr class="border-b border-gray-100 hover:bg-slate-50/80 transition cursor-default">
+                <td class="p-4 text-xs font-bold text-gray-300">7</td>
+                <td class="p-4 text-sm font-semibold text-slate-600">Oct 13</td>
+                <td class="p-4">
+                    <div class="font-bold text-slate-800 text-sm">Multi-container Applications with Compose</div>
+                    <div class="text-[10px] text-gray-400 font-bold uppercase tracking-tight">DO188 Ch 7</div>
+                </td>
+                <td class="p-4">
+                    <span class="status-badge badge-blue">Lab</span>
+                </td>
+            </tr><tr class="border-b border-gray-100 hover:bg-slate-50/80 transition cursor-default">
+                <td class="p-4 text-xs font-bold text-gray-300">8</td>
+                <td class="p-4 text-sm font-semibold text-slate-600">Oct 20</td>
+                <td class="p-4">
+                    <div class="font-bold text-slate-800 text-sm">Orchestration with OpenShift &amp; Kubernetes</div>
+                    <div class="text-[10px] text-gray-400 font-bold uppercase tracking-tight">DO188 Ch 8</div>
+                </td>
+                <td class="p-4">
+                    <span class="status-badge badge-blue">Lab</span>
+                </td>
+            </tr><tr class="border-b border-gray-100 hover:bg-slate-50/80 transition cursor-default">
+                <td class="p-4 text-xs font-bold text-gray-300">9</td>
+                <td class="p-4 text-sm font-semibold text-slate-600">Oct 27</td>
+                <td class="p-4">
+                    <div class="font-bold text-slate-800 text-sm">MIDTERM LAB PRACTICAL</div>
+                    <div class="text-[10px] text-gray-400 font-bold uppercase tracking-tight">DO188 Ch 9</div>
+                </td>
+                <td class="p-4">
+                    <span class="status-badge badge-red">MIDTERM</span>
+                </td>
+            </tr><tr class="border-b border-gray-100 hover:bg-slate-50/80 transition cursor-default">
+                <td class="p-4 text-xs font-bold text-gray-300">10</td>
+                <td class="p-4 text-sm font-semibold text-slate-600">Nov 3</td>
+                <td class="p-4">
+                    <div class="font-bold text-slate-800 text-sm">Intro to K8s and OpenShift</div>
+                    <div class="text-[10px] text-gray-400 font-bold uppercase tracking-tight">DO180 Ch 1</div>
+                </td>
+                <td class="p-4">
+                    <span class="status-badge badge-blue">Lab</span>
+                </td>
+            </tr><tr class="border-b border-gray-100 hover:bg-slate-50/80 transition cursor-default">
+                <td class="p-4 text-xs font-bold text-gray-300">11</td>
+                <td class="p-4 text-sm font-semibold text-slate-600">Nov 10</td>
+                <td class="p-4">
+                    <div class="font-bold text-slate-800 text-sm">OpenShift CLIs and APIs</div>
+                    <div class="text-[10px] text-gray-400 font-bold uppercase tracking-tight">DO180 Ch 2</div>
+                </td>
+                <td class="p-4">
+                    <span class="status-badge badge-blue">Lab</span>
+                </td>
+            </tr><tr class="border-b border-gray-100 hover:bg-slate-50/80 transition cursor-default">
+                <td class="p-4 text-xs font-bold text-gray-300">12</td>
+                <td class="p-4 text-sm font-semibold text-slate-600">Nov 17</td>
+                <td class="p-4">
+                    <div class="font-bold text-slate-800 text-sm">Run Applications as Pods</div>
+                    <div class="text-[10px] text-gray-400 font-bold uppercase tracking-tight">DO180 Ch 3</div>
+                </td>
+                <td class="p-4">
+                    <span class="status-badge badge-blue">Lab</span>
+                </td>
+            </tr><tr class="border-b border-gray-100 hover:bg-slate-50/80 transition cursor-default">
+                <td class="p-4 text-xs font-bold text-gray-300">13</td>
+                <td class="p-4 text-sm font-semibold text-slate-600">Nov 24</td>
+                <td class="p-4">
+                    <div class="font-bold text-slate-800 text-sm">Managed and Networked Applications</div>
+                    <div class="text-[10px] text-gray-400 font-bold uppercase tracking-tight">DO180 Ch 4</div>
+                </td>
+                <td class="p-4">
+                    <span class="status-badge badge-blue">Lab</span>
+                </td>
+            </tr><tr class="border-b border-gray-100 hover:bg-slate-50/80 transition cursor-default">
+                <td class="p-4 text-xs font-bold text-gray-300">14</td>
+                <td class="p-4 text-sm font-semibold text-slate-600">Dec 1</td>
+                <td class="p-4">
+                    <div class="font-bold text-slate-800 text-sm">Storage &amp; Reliability</div>
+                    <div class="text-[10px] text-gray-400 font-bold uppercase tracking-tight">DO180 Ch 5-6</div>
+                </td>
+                <td class="p-4">
+                    <span class="status-badge badge-blue">Lab</span>
+                </td>
+            </tr><tr class="border-b border-gray-100 hover:bg-slate-50/80 transition cursor-default">
+                <td class="p-4 text-xs font-bold text-gray-300">15</td>
+                <td class="p-4 text-sm font-semibold text-slate-600">Dec 8</td>
+                <td class="p-4">
+                    <div class="font-bold text-slate-800 text-sm">FINAL LAB PRACTICALS</div>
+                    <div class="text-[10px] text-gray-400 font-bold uppercase tracking-tight">DO180 Ch 7-8</div>
+                </td>
+                <td class="p-4">
+                    <span class="status-badge badge-red">FINAL</span>
+                </td>
+            </tr></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="grading" class="section-card">
+                <h3 class="text-2xl font-bold text-gray-800 mb-6">Grading Standard</h3>
+                <div class="flex flex-col md:flex-row gap-6">
+                    <div class="flex-1 space-y-4">
+                        <div class="flex justify-between items-center p-3 bg-white border rounded shadow-sm">
+                            <span class="font-bold text-slate-700">Lab Assignments (17)</span>
+                            <span class="text-blue-600 font-black">50%</span>
+                        </div>
+                        <div class="flex justify-between items-center p-3 bg-white border rounded shadow-sm">
+                            <span class="font-bold text-slate-700">Midterm Practical</span>
+                            <span class="text-blue-600 font-black">20%</span>
+                        </div>
+                        <div class="flex justify-between items-center p-3 bg-white border rounded shadow-sm">
+                            <span class="font-bold text-slate-700">Final Practicals</span>
+                            <span class="text-blue-600 font-black">30%</span>
+                        </div>
+                    </div>
+                    <div class="bg-slate-800 text-white p-6 rounded-xl md:w-1/3">
+                        <h4 class="text-xs font-bold uppercase text-blue-400 mb-4 tracking-widest">Required Mastery</h4>
+                        <p class="text-3xl font-black mb-2">Grade C</p>
+                        <p class="text-xs text-gray-400">A minimum grade of C (70%) is required to progress to subsequent NETW courses.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="policies" class="section-card border-none">
+                <h3 class="text-2xl font-bold text-gray-800 mb-4">Department Policies</h3>
+                <div class="space-y-3">
+                    <div class="p-4 border rounded-lg bg-yellow-50/50 border-yellow-100">
+                        <h4 class="font-bold text-sm text-yellow-800">Academic Integrity &amp; AI</h4>
+                        <p class="text-xs text-yellow-700 mt-1">Use of AI tools to complete hands-on lab tasks is prohibited. AI is permitted for concept review and documentation analysis only.</p>
+                    </div>
+                    <div class="p-4 border rounded-lg bg-red-50/50 border-red-100">
+                        <h4 class="font-bold text-sm text-red-800">Late Work</h4>
+                        <p class="text-xs text-red-700 mt-1">Assignments submitted within 1 week receive up to 80% credit. Beyond 1 week: 50% max.</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+</div>
+
+<footer class="text-center py-12 text-gray-400 text-xs no-print">
+    <p>© 2024 Brookdale Community College | NETW 112 Course Materials</p>
+</footer>
+
+<script id="courseScript">
+            const courseData = [{"title":"Introduction & Overview of Containers","type":"Lecture","chapter":"DO188 Ch 1"},{"title":"Podman Basics","type":"Lab","chapter":"DO188 Ch 2"},{"title":"Container Images","type":"Lab","chapter":"DO188 Ch 3"},{"title":"Custom Container Images","type":"Lab","chapter":"DO188 Ch 4"},{"title":"Persisting Data","type":"Lab","chapter":"DO188 Ch 5"},{"title":"Troubleshooting Containers","type":"Lab","chapter":"DO188 Ch 6"},{"title":"Multi-container Applications with Compose","type":"Lab","chapter":"DO188 Ch 7"},{"title":"Orchestration with OpenShift & Kubernetes","type":"Lab","chapter":"DO188 Ch 8"},{"title":"MIDTERM LAB PRACTICAL","type":"MIDTERM","chapter":"DO188 Ch 9"},{"title":"Intro to K8s and OpenShift","type":"Lab","chapter":"DO180 Ch 1"},{"title":"OpenShift CLIs and APIs","type":"Lab","chapter":"DO180 Ch 2"},{"title":"Run Applications as Pods","type":"Lab","chapter":"DO180 Ch 3"},{"title":"Managed and Networked Applications","type":"Lab","chapter":"DO180 Ch 4"},{"title":"Storage & Reliability","type":"Lab","chapter":"DO180 Ch 5-6"},{"title":"FINAL LAB PRACTICALS","type":"FINAL","chapter":"DO180 Ch 7-8"}];
+            window.onload = () => {
+                renderSchedule("Jane Doe", "2026-09-01");
+            };
+            function renderSchedule(instructor, startDateVal) {
+        document.getElementById('displayInstructor').textContent = instructor;
+        const scheduleBody = document.getElementById('scheduleBody');
+        scheduleBody.innerHTML = '';
+
+        let currentDate = startDateVal ? new Date(startDateVal + 'T00:00:00') : null;
+
+        if (currentDate) {
+            document.getElementById('termStartIndicator').textContent = "Term Starts: " + currentDate.toLocaleDateString();
+            document.getElementById('termStartIndicator').classList.add('bg-blue-600', 'text-white');
+        }
+
+        courseData.forEach((item, index) => {
+            const row = document.createElement('tr');
+            row.className = "border-b border-gray-100 hover:bg-slate-50/80 transition cursor-default";
+            
+            let dateStr = "—";
+            if (currentDate) {
+                dateStr = currentDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+                currentDate.setDate(currentDate.getDate() + 7);
+            }
+
+            const badgeColor = item.type === "MIDTERM" || item.type === "FINAL" ? "badge-red" : "badge-blue";
+
+            row.innerHTML = `
+                <td class="p-4 text-xs font-bold text-gray-300">${index + 1}</td>
+                <td class="p-4 text-sm font-semibold text-slate-600">${dateStr}</td>
+                <td class="p-4">
+                    <div class="font-bold text-slate-800 text-sm">${item.title}</div>
+                    <div class="text-[10px] text-gray-400 font-bold uppercase tracking-tight">${item.chapter}</div>
+                </td>
+                <td class="p-4">
+                    <span class="status-badge ${badgeColor}">${item.type}</span>
+                </td>
+            `;
+            scheduleBody.appendChild(row);
+        });
+    }
+        </script>
+
+
+
+<!----comment node----><div id="1p-menu-live-region" role="status" aria-live="polite" aria-atomic="true" aria-relevant="all" style="clip: rect(0px, 0px, 0px, 0px); clip-path: inset(50%); height: 1px; overflow: hidden; position: fixed; top: 0px; left: 0px; white-space: nowrap; width: 1px; overflow-wrap: normal;">1Password menu is available. Press down arrow to select.</div></body><grammarly-desktop-integration data-grammarly-shadow-root="true"></grammarly-desktop-integration><mapify-window data-wxt-shadow-root="" style="position: relative; z-index: calc(infinity);"></mapify-window></html>
