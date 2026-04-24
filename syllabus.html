@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NETW 112: Containers & Orchestration - Interactive Syllabus</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --brookdale-blue: #004b8d;
+            --rh-red: #ee0000;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f4f7f9;
+        }
+        .container-custom {
+            max-width: 1000px;
+            margin: 2rem auto;
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .sidebar-nav {
+            position: sticky;
+            top: 1rem;
+            height: fit-content;
+        }
+        .nav-link {
+            display: block;
+            padding: 0.5rem 1rem;
+            color: #555;
+            text-decoration: none;
+            border-left: 3px solid transparent;
+            transition: all 0.2s;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: var(--brookdale-blue);
+            border-left-color: var(--brookdale-blue);
+            background: #f0f7ff;
+        }
+        .section-card {
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid #eee;
+        }
+        .header-gradient {
+            background: linear-gradient(135deg, var(--brookdale-blue) 0%, #002d54 100%);
+            color: white;
+            padding: 3rem 2rem;
+            border-radius: 8px 8px 0 0;
+            margin: -2rem -2rem 2rem -2rem;
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        .badge-red { background: #fee2e2; color: #991b1b; }
+        .badge-blue { background: #dbeafe; color: #1e40af; }
+        
+        /* Print Styles */
+        @media print {
+            .no-print { display: none; }
+            .container-custom { box-shadow: none; margin: 0; width: 100%; max-width: none; }
+            .sidebar-nav { display: none; }
+        }
+
+        /* Accessibility: High Contrast Focus */
+        *:focus {
+            outline: 3px solid var(--brookdale-blue);
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container-custom">
+    <!-- Instructor Configuration Panel (Hidden by default or toggled) -->
+    <div id="adminPanel" class="bg-gray-100 p-6 rounded-lg mb-8 no-print border-2 border-dashed border-gray-300">
+        <h2 class="text-lg font-bold mb-4 flex items-center">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+            Instructor Control Panel
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div>
+                <label for="instructorName" class="block text-sm font-medium text-gray-700">Instructor Name</label>
+                <input type="text" id="instructorInput" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 border" placeholder="e.g. Prof. Smith">
+            </div>
+            <div>
+                <label for="startDate" class="block text-sm font-medium text-gray-700">Course Start Date (Monday of Wk 1)</label>
+                <input type="date" id="startDateInput" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 border">
+            </div>
+            <div class="flex items-end">
+                <button onclick="updateSyllabus()" class="w-full bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">Apply Updates</button>
+            </div>
+        </div>
+        <p class="text-xs text-gray-500 mt-2 italic">* Use this to set the term dates and your contact info. These changes stay in your browser's local memory.</p>
+    </div>
+
+    <div class="flex flex-col md:flex-row gap-8">
+        <!-- Sticky Navigation -->
+        <nav class="md:w-1/4 no-print" aria-label="Syllabus Navigation">
+            <div class="sidebar-nav bg-white p-4 rounded border">
+                <h3 class="font-bold text-gray-400 uppercase text-xs mb-4 tracking-widest">Contents</h3>
+                <a href="#info" class="nav-link active">Course Info</a>
+                <a href="#description" class="nav-link">Description</a>
+                <a href="#outcomes" class="nav-link">Learning Outcomes</a>
+                <a href="#materials" class="nav-link">Materials</a>
+                <a href="#schedule" class="nav-link">Schedule</a>
+                <a href="#grading" class="nav-link">Grading</a>
+                <a href="#policies" class="nav-link">Policies</a>
+                <button onclick="window.print()" class="mt-6 w-full flex items-center justify-center gap-2 bg-gray-800 text-white px-4 py-2 rounded text-sm">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+                    Print / PDF
+                </button>
+            </div>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main class="md:w-3/4" id="main-content">
+            <header class="header-gradient text-center" id="info">
+                <p class="uppercase tracking-widest text-blue-200 font-bold text-sm mb-2">Brookdale Community College</p>
+                <h1 class="text-4xl font-extrabold mb-2">NETW 112: Containers & Orchestration</h1>
+                <h2 class="text-xl opacity-90 mb-4">Containerization with Podman & OpenShift Administration</h2>
+                <div class="flex flex-wrap justify-center gap-4 text-sm">
+                    <span class="bg-white/20 px-3 py-1 rounded-full border border-white/30">Instructor: <span id="displayInstructor">TBD</span></span>
+                    <span class="bg-white/20 px-3 py-1 rounded-full border border-white/30">Prereq: NETW 110</span>
+                    <span class="bg-white/20 px-3 py-1 rounded-full border border-white/30">100% Hands-on Lab</span>
+                </div>
+            </header>
+
+            <section id="description" class="section-card">
+                <h3 class="text-2xl font-bold text-gray-800 mb-4">Course Description</h3>
+                <p class="text-gray-700">
+                    This course introduces students to modern application deployment using container technology and orchestration platforms. Designed for IT students with basic Linux CLI experience, it provides a hands-on path from container fundamentals to enterprise-scale orchestration using **Podman** and **Red Hat OpenShift**.
+                </p>
+                <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-red-50 p-4 border-l-4 border-red-600">
+                        <h4 class="font-bold text-red-800">Red Hat Academy</h4>
+                        <p class="text-sm text-red-700">Prepares you for EX188 (Containers) and provides foundational skills for EX280 (OpenShift Admin).</p>
+                    </div>
+                    <div class="bg-blue-50 p-4 border-l-4 border-blue-600">
+                        <h4 class="font-bold text-blue-800">Assessment</h4>
+                        <p class="text-sm text-blue-700">No written exams. Mastery is demonstrated through live lab practicals in the Red Hat environment.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="outcomes" class="section-card">
+                <h3 class="text-2xl font-bold text-gray-800 mb-4">Learning Outcomes</h3>
+                <ul class="space-y-3" role="list">
+                    <li class="flex items-start">
+                        <span class="text-green-500 mr-2">✔</span>
+                        <span>Run, manage, and troubleshoot containers using Podman on RHEL.</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-green-500 mr-2">✔</span>
+                        <span>Build custom images using Containerfiles and multi-stage builds.</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-green-500 mr-2">✔</span>
+                        <span>Persist data using volumes and bind mounts with correct SELinux configuration.</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-green-500 mr-2">✔</span>
+                        <span>Navigate OpenShift clusters using the web console and <code class="bg-gray-100 px-1 rounded">oc</code> CLI.</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-green-500 mr-2">✔</span>
+                        <span>Manage applications using Kubernetes Pods, Deployments, and Services.</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-green-500 mr-2">✔</span>
+                        <span>Configure reliability with liveness/readiness probes and Horizontal Pod Autoscaling.</span>
+                    </li>
+                </ul>
+            </section>
+
+            <section id="materials" class="section-card">
+                <h3 class="text-2xl font-bold text-gray-800 mb-4">Required Materials</h3>
+                <div class="bg-gray-50 p-4 rounded border mb-4">
+                    <h4 class="font-bold mb-2">Red Hat Learning Subscription</h4>
+                    <p class="text-sm">Access to the Red Hat Online Learning Environment (OLE) is provided through the Red Hat Academy. This includes:</p>
+                    <ul class="list-disc list-inside text-sm mt-2 text-gray-600">
+                        <li>DO188: Introduction to Containers with Podman</li>
+                        <li>DO180: OpenShift Administration I</li>
+                    </ul>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="p-4 border rounded">
+                        <h5 class="font-bold text-sm uppercase text-gray-500">Tech Stack</h5>
+                        <p class="text-sm font-medium">RHEL 9, Podman 4.x, Buildah, Skopeo</p>
+                    </div>
+                    <div class="p-4 border rounded">
+                        <h5 class="font-bold text-sm uppercase text-gray-500">Environment</h5>
+                        <p class="text-sm font-medium">Red Hat Developer Sandbox (OpenShift)</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="schedule" class="section-card">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-2xl font-bold text-gray-800">Course Schedule</h3>
+                    <span class="text-sm font-semibold text-gray-500" id="termStartIndicator">Set start date in panel</span>
+                </div>
+                
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse" aria-label="Weekly Schedule">
+                        <thead>
+                            <tr class="bg-gray-100 border-b-2 border-gray-200">
+                                <th class="p-3 font-bold text-sm uppercase">Wk</th>
+                                <th class="p-3 font-bold text-sm uppercase">Starts</th>
+                                <th class="p-3 font-bold text-sm uppercase">Topic / Chapter</th>
+                                <th class="p-3 font-bold text-sm uppercase">Type</th>
+                            </tr>
+                        </thead>
+                        <tbody id="scheduleBody">
+                            <!-- Populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="grading" class="section-card">
+                <h3 class="text-2xl font-bold text-gray-800 mb-4">Grading & Assessment</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <table class="w-full text-left border-collapse">
+                            <tr class="border-b">
+                                <td class="py-2 font-medium">Lab Assignments (17)</td>
+                                <td class="py-2 text-right">50%</td>
+                            </tr>
+                            <tr class="border-b">
+                                <td class="py-2 font-medium">Midterm Lab Practical</td>
+                                <td class="py-2 text-right">20%</td>
+                            </tr>
+                            <tr class="border-b">
+                                <td class="py-2 font-medium">Final Lab Practicals</td>
+                                <td class="py-2 text-right">30%</td>
+                            </tr>
+                            <tr class="font-bold">
+                                <td class="py-2">Total</td>
+                                <td class="py-2 text-right">100%</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="bg-blue-50 p-4 rounded border border-blue-100">
+                        <h4 class="font-bold mb-2">Grade Scale</h4>
+                        <div class="grid grid-cols-2 text-sm">
+                            <span>A: 90-100</span>
+                            <span>B-: 77-79</span>
+                            <span>A-: 87-89</span>
+                            <span>C+: 75-76</span>
+                            <span>B+: 85-86</span>
+                            <span>C: 70-74</span>
+                            <span>B: 80-84</span>
+                            <span>F: < 65</span>
+                        </div>
+                        <p class="text-xs mt-3 italic">* C or higher required for prerequisites.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="policies" class="section-card border-none">
+                <h3 class="text-2xl font-bold text-gray-800 mb-4">Policies</h3>
+                <div class="space-y-4">
+                    <details class="group border rounded p-4" open>
+                        <summary class="font-bold cursor-pointer flex justify-between items-center list-none">
+                            Attendance & Participation
+                            <span class="group-open:rotate-180 transition-transform">▼</span>
+                        </summary>
+                        <p class="mt-2 text-sm text-gray-600">Students missing a session are responsible for completing labs independently. More than three unexcused absences may result in grade penalties.</p>
+                    </details>
+                    <details class="group border rounded p-4">
+                        <summary class="font-bold cursor-pointer flex justify-between items-center list-none">
+                            Late Work
+                            <span class="group-open:rotate-180 transition-transform">▼</span>
+                        </summary>
+                        <p class="mt-2 text-sm text-gray-600">Within one week: max 80% credit. More than one week: max 50% credit. Practical exam deadlines are firm.</p>
+                    </details>
+                    <details class="group border rounded p-4">
+                        <summary class="font-bold cursor-pointer flex justify-between items-center list-none">
+                            Academic Integrity & AI
+                            <span class="group-open:rotate-180 transition-transform">▼</span>
+                        </summary>
+                        <p class="mt-2 text-sm text-gray-600">Use of AI tools to complete hands-on labs is prohibited. AI may be used to study concepts and review documentation only.</p>
+                    </details>
+                    <div class="bg-red-50 p-6 rounded-lg mt-8">
+                        <h4 class="font-bold text-red-900 mb-2">Support & Mental Health</h4>
+                        <p class="text-sm text-red-800 mb-4">You are not alone. Brookdale provides mental health support.</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-bold text-red-900">
+                            <div class="border border-red-200 bg-white p-2 rounded">Psych Emergency: (732) 923-6999</div>
+                            <div class="border border-red-200 bg-white p-2 rounded">Counseling: (732) 224-1822</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+</div>
+
+<footer class="text-center py-12 text-gray-400 text-sm no-print">
+    <p>© 2024 Brookdale Community College - Department of Network Technology</p>
+</footer>
+
+<script>
+    const courseData = [
+        { wk: 1, title: "Introduction & Overview of Containers", type: "Lecture", chapter: "DO188 Ch 1" },
+        { wk: 2, title: "Podman Basics", type: "Lab", chapter: "DO188 Ch 2" },
+        { wk: 3, title: "Container Images", type: "Lab", chapter: "DO188 Ch 3" },
+        { wk: 4, title: "Custom Container Images", type: "Lab", chapter: "DO188 Ch 4" },
+        { wk: 5, title: "Persisting Data", type: "Lab", chapter: "DO188 Ch 5" },
+        { wk: 6, title: "Troubleshooting Containers", type: "Lab", chapter: "DO188 Ch 6" },
+        { wk: 7, title: "Multi-container Applications with Compose", type: "Lab", chapter: "DO188 Ch 7" },
+        { wk: 8, title: "Orchestration with OpenShift & Kubernetes", type: "Lab", chapter: "DO188 Ch 8" },
+        { wk: 9, title: "MIDTERM LAB PRACTICAL", type: "MIDTERM", chapter: "DO188 Ch 9" },
+        { wk: 10, title: "Intro to K8s and OpenShift", type: "Lab", chapter: "DO180 Ch 1" },
+        { wk: 11, title: "OpenShift CLIs and APIs", type: "Lab", chapter: "DO180 Ch 2" },
+        { wk: 12, title: "Run Applications as Pods", type: "Lab", chapter: "DO180 Ch 3" },
+        { wk: 13, title: "Managed and Networked Applications", type: "Lab", chapter: "DO180 Ch 4" },
+        { wk: 14, title: "Storage & Reliability", type: "Lab", chapter: "DO180 Ch 5-6" },
+        { wk: 15, title: "FINAL LAB PRACTICALS", type: "FINAL", chapter: "DO180 Ch 7-8" }
+    ];
+
+    function updateSyllabus() {
+        const instructor = document.getElementById('instructorInput').value || "TBD";
+        const startDateVal = document.getElementById('startDateInput').value;
+        
+        // Save to local storage
+        localStorage.setItem('syllabus_instructor', instructor);
+        localStorage.setItem('syllabus_startDate', startDateVal);
+        
+        applyChanges();
+    }
+
+    function applyChanges() {
+        const instructor = localStorage.getItem('syllabus_instructor') || "TBD";
+        const startDateVal = localStorage.getItem('syllabus_startDate');
+        
+        document.getElementById('displayInstructor').textContent = instructor;
+        
+        const scheduleBody = document.getElementById('scheduleBody');
+        scheduleBody.innerHTML = '';
+
+        let currentDate = startDateVal ? new Date(startDateVal + 'T00:00:00') : null;
+
+        if (currentDate) {
+            document.getElementById('termStartIndicator').textContent = "Term Starts: " + currentDate.toLocaleDateString();
+        }
+
+        courseData.forEach((item) => {
+            const row = document.createElement('tr');
+            row.className = "border-b hover:bg-gray-50 transition";
+            
+            let dateStr = "TBD";
+            if (currentDate) {
+                dateStr = currentDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+                // Add 7 days for next week
+                currentDate.setDate(currentDate.getDate() + 7);
+            }
+
+            const badgeClass = item.type === "MIDTERM" || item.type === "FINAL" ? "badge-red" : "badge-blue";
+
+            row.innerHTML = `
+                <td class="p-3 text-sm font-bold text-gray-500">${item.wk}</td>
+                <td class="p-3 text-sm font-medium">${dateStr}</td>
+                <td class="p-3">
+                    <div class="font-bold text-gray-800">${item.title}</div>
+                    <div class="text-xs text-gray-500">${item.chapter}</div>
+                </td>
+                <td class="p-3">
+                    <span class="status-badge ${badgeClass}">${item.type}</span>
+                </td>
+            `;
+            scheduleBody.appendChild(row);
+        });
+    }
+
+    // Highlighting current section in navigation
+    window.addEventListener('scroll', () => {
+        const sections = document.querySelectorAll('section, header');
+        const navLinks = document.querySelectorAll('.nav-link');
+        
+        let current = "";
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (pageYOffset >= sectionTop - 100) {
+                current = section.getAttribute('id');
+            }
+        });
+
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').includes(current)) {
+                link.classList.add('active');
+            }
+        });
+    });
+
+    // Initialize from storage on load
+    window.onload = () => {
+        document.getElementById('instructorInput').value = localStorage.getItem('syllabus_instructor') || "";
+        document.getElementById('startDateInput').value = localStorage.getItem('syllabus_startDate') || "";
+        applyChanges();
+    };
+</script>
+
+</body>
+</html>
